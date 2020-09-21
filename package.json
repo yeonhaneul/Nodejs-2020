@@ -1,0 +1,23 @@
+{
+  "name": "node-basic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "01.helloWorld.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeonhaneul/Nodejs-2020.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yeonhaneul/Nodejs-2020/issues"
+  },
+  "homepage": "https://github.com/yeonhaneul/Nodejs-2020#readme",
+  "dependencies": {
+    "moment": "^2.28.0",
+    "moment-timezone": "^0.5.31"
+  }
+}
