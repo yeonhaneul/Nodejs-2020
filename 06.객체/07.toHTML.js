@@ -19,7 +19,7 @@ let html =`<table border="1px solid black" style="text-align: center;">
         <td>${item.name}</td>
         <td>${item.price}</td>
     </tr>
-    `
+    `;
     }
 html +=`</table>`
 console.log(html);
