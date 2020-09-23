@@ -1,5 +1,3 @@
-// recheck
-
 let total = 0;
 
 for (let hour=0; hour<=23; hour++) {
