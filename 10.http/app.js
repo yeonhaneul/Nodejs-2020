@@ -51,7 +51,7 @@ http.createServer(function(req,res) {
             body += data;
         })
         req.on('end', function() {
-            let param = qs.parse(body);     // let body 부터 이곳까지는 사용자의 데이터를 불러오기 (쿼리 스트링으로 제목과 내용을 나눈다.)
+            let param = qs.parse(body);     // body 부터 이곳까지는 사용자의 데이터를 불러오기 (쿼리 스트링으로 제목과 내용을 나눈다.)
             // console.log(param.subject, param.description);   // template화면의 name으로 준 값 (subject, descirption)
             let filepath = 'data/' + param.subject + '.txt' // 파일명
             fs.writeFile(filepath, param.description, error => {    //새로운 파일 생성을 위한 값
