@@ -3,7 +3,6 @@ const url = require('url');
 const qs = require('querystring');
 const fs = require('fs');
 const view = require('./view/index');
-const tpl = require('./view/template.js');
 const template = require('./view/template.js');
 
 http.createServer(function(req,res) {
