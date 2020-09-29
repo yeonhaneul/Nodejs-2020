@@ -17,6 +17,7 @@ http.createServer(function(req,res) {
             fs.readdir('data', function(error, filelist) {
                 let list = template.listGen(filelist);
                 let content = template.HOME_CONTENTS;
+                content = content.replace(/\n/g, '<br>');
                 let control = template.buttonGen();
                 let html = view.index('Web 기술', list, content, control); // content를 넣을 수 있게된다.
                 res.end(html);
@@ -28,6 +29,7 @@ http.createServer(function(req,res) {
                 let control = template.buttonGen(title);
                 let filename = 'data/' + title + '.txt';
                 fs.readFile(filename, 'utf8', (error, buffer) => {
+                    buffer = buffer.replace(/\n/g, '<br>');
                     let html = view.index(title, list, buffer, control);
                     res.end(html);
                 });
@@ -53,7 +55,9 @@ http.createServer(function(req,res) {
             // console.log(param.subject, param.description);   // template화면의 name으로 준 값 (subject, descirption)
             let filepath = 'data/' + param.subject + '.txt' // 파일명
             fs.writeFile(filepath, param.description, error => {    //새로운 파일 생성을 위한 값
-                res.writeHead(302, {'Location': `/?id=${param.subject}`});  // id=xxx로 들어가게된다.
+                let encoded = encodeURI(`/?id=${param.subject}`);
+                console.log(encoded);
+                res.writeHead(302, {'Location': encoded});  // id=xxx로 들어가게된다.
                 res.end();
             });
         });
@@ -105,15 +109,22 @@ http.createServer(function(req,res) {
             // console.log(param.original, param.subject, param.description);
             let filepath = 'data/' + param.original + '.txt';
             fs.writeFile(filepath, param.description, error => {
-                if (param.original !== param.subject) {
+                let encoded = encodeURI(`/?id=${param.subject}`);
+                // console.log(encoded);
+                /* if (param.original !== param.subject) {
                     fs.rename(filepath, `data/${param.subject}.txt`, error => {
-                        res.writeHead(302, {'Location': `/?id=${param.subject}`});
+                        res.writeHead(302, {'Location': encoded});
                         res.end();    
                     });
                 } else {
-                    res.writeHead(302, {'Location': `/?id=${param.subject}`});  // id=xxx로 들어가게된다.
+                    res.writeHead(302, {'Location': encoded});  // id=xxx로 들어가게된다.
                     res.end();
+                } */
+                if (param.original !== param.subject) {
+                    fs.renameSync(filepath, `data/${param.subject}.txt`);
                 }
+                res.writeHead(302, {'Location': encoded});
+                res.end(); 
             });
         });
         break;
