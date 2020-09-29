@@ -66,7 +66,6 @@ http.createServer(function(req,res) {
             let html = view.index('글 삭제', list, content, control);
                 res.end(html);
             });
-        break;
     case '/delete_proc': {
         body = '';
         req.on('data', function(data) {
@@ -81,41 +80,6 @@ http.createServer(function(req,res) {
             })
             });
         };
-        break;
-    case '/update':     // 업데이트폼을 화면에 보여주는 코드
-        fs.readdir('data', function(error, filelist) {
-            let list = template.listGen(filelist);
-            let title = query.id;
-            let control = template.buttonGen();
-            let filename = 'data/' + title + '.txt';
-            fs.readFile(filename, 'utf8', (error, buffer) => {
-                let content = template.updateForm(title, buffer);
-                let html = view.index(`${title} 수정`, list, content, control);
-                res.end(html);
-            });
-        });
-        break;
-    case '/update_proc':    // 업데이트내역 입력 후, 데이터 저장에 관한 코드
-        body = '';  // form에 name이 기재되어있는 것을 불러온다.
-        req.on('data', function(data) {
-            body += data;
-        })
-        req.on('end', function() {
-            let param = qs.parse(body);
-            // console.log(param.original, param.subject, param.description);
-            let filepath = 'data/' + param.original + '.txt';
-            fs.writeFile(filepath, param.description, error => {
-                if (param.original !== param.subject) {
-                    fs.rename(filepath, `data/${param.subject}.txt`, error => {
-                        res.writeHead(302, {'Location': `/?id=${param.subject}`});
-                        res.end();    
-                    });
-                } else {
-                    res.writeHead(302, {'Location': `/?id=${param.subject}`});  // id=xxx로 들어가게된다.
-                    res.end();
-                }
-            });
-        });
         break;
     default:
         res.writeHead(404);
